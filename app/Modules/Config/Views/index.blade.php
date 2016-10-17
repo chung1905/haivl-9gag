@@ -4,7 +4,7 @@
     <meta charset="utf-8">
 </head>
 @section('content')
-<div>
+<div class="container">
     <p>Cấu hình hiện tại:</p>
     <table border=0px>
         <tr>
@@ -23,9 +23,7 @@
             <td>{{$category}}</td>
         </tr>
     </table>
-</div>
 <hr>
-<div>
     <p>Sửa cấu hình</p>
         <form method="POST" action="/config/submit">
             <table border=0px>

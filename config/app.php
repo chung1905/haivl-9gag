@@ -168,7 +168,7 @@ return [
          */
 
         // Custom Service Providers
-        'App\Modules\ServiceProvider',
+        App\Modules\ServiceProvider::class,
 
         /*
          * Application Service Providers...
