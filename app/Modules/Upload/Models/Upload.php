@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Modules\Homepage\Models;
+namespace App\Modules\Upload\Models;
 
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Model;
-class Homepage extends Model
+
+class Upload extends Model
 {
     public static function hello() {
         $data = [];
