@@ -5,6 +5,11 @@
 </head>
 @section('content')
 <div class="container">
-    <p>Hello</p>
+    <p>Upload your file here:</p>
+    <form method="POST" action="/upload/submit">
+    	<input type="file" name="image_upload" accept="image/*">
+    	<input type="submit" name="submit_image" value="OK">
+    	{{ csrf_field() }}
+    </form>
 </div>
 @endsection

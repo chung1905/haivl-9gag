@@ -7,8 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Upload extends Model
 {
-    public static function hello() {
-        $data = [];
-        return $data;
+    public static function submit(Request $request) {
+		
     }
+
 }

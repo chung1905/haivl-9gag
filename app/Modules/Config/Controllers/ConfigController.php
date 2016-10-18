@@ -12,9 +12,6 @@ class ConfigController extends Controller {
         # parent::__construct();
     }
     public function index(Request $request) {
-        return view('Config::index', Config::getConfigData());
-    }
-    public function submit(Request $request) {
         Config::modifyConfigData($request);
         return view('Config::index', Config::getConfigData());
     }

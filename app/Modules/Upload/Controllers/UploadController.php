@@ -11,6 +11,7 @@ class UploadController extends Controller {
         # parent::__construct();
     }
     public function index(Request $request) {
-        return view('Upload::index', Upload::hello());
+        Upload::submit($request);
+        return view('Upload::index');
     }
 }

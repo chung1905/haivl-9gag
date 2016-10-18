@@ -25,7 +25,7 @@
     </table>
 <hr>
     <p>Sửa cấu hình</p>
-        <form method="POST" action="/config/submit">
+        <form method="POST">
             <table border=0px>
             <tr>
                 <td>Dung lượng tối đa mỗi ảnh</td>
