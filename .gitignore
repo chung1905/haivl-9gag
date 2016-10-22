@@ -2,7 +2,6 @@
 /public/storage
 /vendor
 /.idea
-/app/Modules/Upload/users/*
 Homestead.json
 Homestead.yaml
 .env
