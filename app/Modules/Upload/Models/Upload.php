@@ -18,8 +18,12 @@ class Upload extends Model
             date_default_timezone_set('Asia/Ho_Chi_Minh');
             $filename = date('ymdHis').'.'.$request->file()['image_upload']->guessExtension();
             $destination_dir = __DIR__.'/../users/'.$request->user()->email.'/';
-            Upload::toStorage($request, $destination_dir, $filename);
-            Upload::toDB($request, $destination_dir, $filename);
+            if (
+                Upload::toStorage($request, $destination_dir, $filename)
+            &&  Upload::toDB($request, $destination_dir, $filename)
+            ){
+                echo ('Upload Successfully');
+            }
         }
     }
 
@@ -27,7 +31,7 @@ class Upload extends Model
         if (isset($request['submit_image'])) {
             $validMimeType = ['image/jpeg', 'image/png', 'image/gif'];
             if (!empty($request['title']) && !empty($request['image_upload'])) {
-                if (isset($request->file()['image_upload']) && in_array($request->file()['image_upload']->getMimeType(), $validMimeType)) {
+                if ( isset($request->file()['image_upload']) && in_array($request->file()['image_upload']->getMimeType(), $validMimeType) ) {
                     if ($request->file()['image_upload']->getClientSize() <= Config::getConfigData()['max_size']*1000) {
                         return true;
                     }
@@ -46,23 +50,27 @@ class Upload extends Model
 
     public static function toStorage(Request $request, string $dir, string $filename) {
         if (!is_dir($dir)) {
-            mkdir($dir);
+            if (!mkdir($dir)) {
+                echo('mkdir() failed');
+                return false;
+            }
         }
-        $request->file()['image_upload']->move($dir, $filename);
+        try {
+            $request->file()['image_upload']->move($dir, $filename);
+        } catch (Exception $e) {
+            echo ('Exception: '.$e->getMessage());
+            return false;
+        } finally {
+            return true;
+        }
     }
 
     public static function toDB(Request $request,string $dir, string $filename) {
-        DB::table('posts')->insert([
+        return DB::table('posts')->insert([
             'author' => $request->user()->id,
-            'title' => $request['title'],
             'link_to_image' => $dir.$filename,
+            'title' => $request['title'],
             'post_time' => date('Y-m-d H:i:s'),
         ]);
-        //DB::table('posts')
-            //->where('config_names', 'max_size')
-            //->update(['config_values' => $data['new_max_size']]);
-        //DB::table('posts')
-            //->where('config_names', 'posts_per_page')
-            //->update(['config_values' => $data['new_ppp']]);
     }
 }
