@@ -6,8 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use PDO;
+//use Illuminate\Support\Facades\Auth;
 
-use Illuminate\Support\Facades\Auth;
 class Config extends Model
 {
     public static function getConfigData() {
@@ -30,7 +30,7 @@ class Config extends Model
         return $data;
     }
     public static function modifyConfigData(Request $data) {
-        if ($data['submit'] == 'OK') {
+        if (isset($data['submit'])) {
             if (!empty($data['new_max_size']) && !empty($data['new_ppp'])) {
                 if (is_numeric($data['new_max_size']) && is_numeric($data['new_ppp'])) {
                     DB::table('configs')
