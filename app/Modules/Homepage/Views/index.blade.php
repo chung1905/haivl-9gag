@@ -1,10 +1,22 @@
 @extends('layouts.app')
-<head>
-    <title>9gag</title>
-    <meta charset="utf-8">
-</head>
+
+@section('title')
+    Hello
+@endsection
+
+@section('category')
+    @foreach ($category as $c)
+        <li><a href="{{ url('/'.$c) }}">{{ ucfirst($c) }}</a></li>
+    @endforeach
+@endsection
+
 @section('content')
 <div class="container">
-    <p>Hello</p>
+	@foreach ($posts as $p)
+    	<div class="panel panel-default">
+            <div class="panel-heading">{{ $p['title'] }}</div>
+        	<div class="panel-body"><img src="{{asset($p['link_to_image'])}}" width=50%></div>
+    	</div>
+    @endforeach
 </div>
 @endsection

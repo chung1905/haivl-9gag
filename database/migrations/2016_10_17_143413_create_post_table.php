@@ -16,7 +16,7 @@ class CreatePostTable extends Migration
         Schema::create('posts', function (Blueprint $table) {
             $table->increments('id');
             $table->string('title');
-            $table->string('category')->default('Fresh');
+            $table->string('category')->default('fresh');
             $table->integer('author');
             $table->string('link_to_image');
             $table->dateTime('post_time');

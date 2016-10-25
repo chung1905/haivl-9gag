@@ -11,6 +11,6 @@ class HomepageController extends Controller {
         # parent::__construct();
     }
     public function index(Request $request) {
-        return view('Homepage::index', Homepage::hello());
+        return view('Homepage::index', Homepage::homepage($request));
     }
 }

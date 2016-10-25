@@ -10,17 +10,24 @@
         <tr>
             <td>Dung lượng tối đa mỗi ảnh</td>
             <td>:</td>
-            <td>{{$max_size}}</td>
+            <td>{{ $max_size }}</td>
         </tr>
         <tr>
             <td>Số lượng post mỗi trang</td>
             <td>:</td>
-            <td>{{$posts_per_page}}</td>
+            <td>{{ $posts_per_page }}</td>
         </tr>
         <tr>
             <td>Category</td>
             <td>:</td>
-            <td>{{$category}}</td>
+            <td>
+                @foreach($category as $c)
+                    {{ $c }}
+                    @if (!$loop->last)
+                        ,
+                    @endif
+                @endforeach
+            </td>
         </tr>
     </table>
 <hr>

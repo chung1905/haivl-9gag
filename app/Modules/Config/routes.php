@@ -11,7 +11,7 @@ Route::group(
     function() use($module) {
         Route::match(['get', 'post'], '/',[
             # middle here
-            "as" => "{$module}.index",
+            # "as" => "{$module}.index",
             "uses" => "{$module}Controller@index"
         ]);
     });

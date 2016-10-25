@@ -1,20 +1,27 @@
 <?php
 
-$prefix = "hello";  // URL prefix
+use App\Modules\Config\Models\Config;
+
+$prefix = "/";  // URL prefix
 
 $module = basename(__DIR__);
 $namespace = "App\Modules\\{$module}\Controllers";
 $middleware = "web";
 
+$category = Config::getConfigData()['category'];
+
 Route::group(
     ["prefix" => $prefix, "module" => $module, "namespace" => $namespace, "middleware" => $middleware],
-    function() use($module) {
-        Route::get('/',[
+    function() use($module, $category) {
+        Route::get('/', [
             # middle here
-            "as" => "{$module}.index",
+            # "as" => "{$module}.index",
             "uses" => "{$module}Controller@index"
         ]);
-        Route::post('/submit', [
-            "uses" => "{$module}Controller@submit"
-        ]);
-    });
+        foreach ($category as $c) {
+            Route::get($c, [
+                "uses" => "{$module}Controller@index"
+            ]);
+        }
+    }
+);

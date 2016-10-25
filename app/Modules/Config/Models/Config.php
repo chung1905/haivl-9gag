@@ -23,7 +23,7 @@ class Config extends Model
                     $data['posts_per_page'] = $config['config_values'];
                     break;
                 case 'category';
-                    $data['category'] = $config['config_values'];
+                    $data['category'] = explode(',',$config['config_values']);
                     break;
             }
         }

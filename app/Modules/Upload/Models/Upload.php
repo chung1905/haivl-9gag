@@ -17,10 +17,11 @@ class Upload extends Model
         if (Upload::isValid($request)) {
             date_default_timezone_set('Asia/Ho_Chi_Minh');
             $filename = date('ymdHis').'.'.$request->file()['image_upload']->guessExtension();
-            $destination_dir = __DIR__.'/../users/'.$request->user()->email.'/';
+            $destination_dir = public_path().'/users/'.$request->user()->email.'/';
+            $public_address = '/users/'.$request->user()->email.'/';
             if (
                 Upload::toStorage($request, $destination_dir, $filename)
-            &&  Upload::toDB($request, $destination_dir, $filename)
+            &&  Upload::toDB($request, $public_address, $filename)
             ){
                 echo ('Upload Successfully');
             }
@@ -65,10 +66,10 @@ class Upload extends Model
         }
     }
 
-    public static function toDB(Request $request,string $dir, string $filename) {
+    public static function toDB(Request $request,string $address, string $filename) {
         return DB::table('posts')->insert([
             'author' => $request->user()->id,
-            'link_to_image' => $dir.$filename,
+            'link_to_image' => $address.$filename,
             'title' => $request['title'],
             'post_time' => date('Y-m-d H:i:s'),
         ]);
