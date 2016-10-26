@@ -18,5 +18,6 @@
         	<div class="panel-body"><img src="{{asset($p['link_to_image'])}}" width=50%></div>
     	</div>
     @endforeach
+    {{ $posts->links() }}
 </div>
 @endsection

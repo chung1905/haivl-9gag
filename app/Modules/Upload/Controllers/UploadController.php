@@ -11,6 +11,6 @@ class UploadController extends Controller {
     }
     public function index(Request $request) {
         Upload::submit($request);
-        return view('Upload::index');
+        return view('Upload::index', Upload::getConfigData());
     }
 }

@@ -32,18 +32,20 @@ class Upload extends Model
         if (isset($request['submit_image'])) {
             $validMimeType = ['image/jpeg', 'image/png', 'image/gif'];
             if (!empty($request['title']) && !empty($request['image_upload'])) {
-                if ( isset($request->file()['image_upload']) && in_array($request->file()['image_upload']->getMimeType(), $validMimeType) ) {
-                    if ($request->file()['image_upload']->getClientSize() <= Config::getConfigData()['max_size']*1000) {
-                        return true;
+                if ( !empty($request->file()['image_upload']) ) {
+                    if ( in_array($request->file()['image_upload']->getMimeType(), $validMimeType) ) {
+                        if ($request->file()['image_upload']->getClientSize() <= Config::getConfigData()['max_size']*1000) {
+                            return true;
+                        }
+                        else {
+                            echo('Image is too large.');
+                            return false;
+                        }
                     }
                     else {
-                        echo('Image is too large.');
+                        echo('Invalid image or no title.');
                         return false;
                     }
-                }
-                else {
-                    echo('Invalid image or no title.');
-                    return false;
                 }
             }
         }
@@ -73,5 +75,9 @@ class Upload extends Model
             'title' => $request['title'],
             'post_time' => date('Y-m-d H:i:s'),
         ]);
+    }
+
+    public static function getConfigData() {
+        return Config::getConfigData();
     }
 }

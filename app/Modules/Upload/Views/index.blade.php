@@ -1,8 +1,15 @@
 @extends('layouts.app')
-<head>
-    <title>Upload</title>
-    <meta charset="utf-8">
-</head>
+
+@section('title')
+    Upload
+@endsection
+
+@section('category')
+    @foreach ($category as $c)
+        <li><a href="{{ url('/'.$c) }}">{{ ucfirst($c) }}</a></li>
+    @endforeach
+@endsection
+
 @section('content')
 <div class="container">
     <p>Upload your file here:</p>
