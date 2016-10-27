@@ -1,6 +1,6 @@
 <?php
 
-use App\Modules\Config\Models\Config;
+use App\Modules\Homepage\Controllers\HomepageController;
 
 $prefix = "/";  // URL prefix
 
@@ -8,7 +8,7 @@ $module = basename(__DIR__);
 $namespace = "App\Modules\\{$module}\Controllers";
 $middleware = "web";
 
-$category = [];
+$category = ['hot', 'trending', 'fresh'];
 
 Route::group(
     ["prefix" => $prefix, "module" => $module, "namespace" => $namespace, "middleware" => $middleware],

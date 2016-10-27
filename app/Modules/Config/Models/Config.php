@@ -30,19 +30,33 @@ class Config extends Model
         }
         return $data;
     }
+    public static function submit(Request $data) {
+        if (isset($data['config_submit'])) {
+            Config::modifyConfigData($data);
+        }
+    }
     public static function modifyConfigData(Request $data) {
-        if (isset($data['submit'])) {
-            if (!empty($data['new_max_size']) && !empty($data['new_ppp'])) {
-                if (is_numeric($data['new_max_size']) && is_numeric($data['new_ppp'])) {
+        $nms = $data['new_max_size'];
+        $nppp = $data['new_ppp'];
+        $nmtl = $data['new_min_trending_like'];
+        $nmhl = $data['new_min_hot_like'];
+        if (!empty($nms) && !empty($nppp) && isset($nmtl) && isset($nmhl)) {
+            if (is_numeric($nms) && is_numeric($nppp) && is_numeric($nmtl) && is_numeric($nmhl)) {
+                if ($nmtl <= $nmhl) {
                     DB::table('configs')
                         ->where('config_names', 'max_size')
-                        ->update(['config_values' => $data['new_max_size']]);
+                        ->update(['config_values' => $nms]);
                     DB::table('configs')
                         ->where('config_names', 'posts_per_page')
-                        ->update(['config_values' => $data['new_ppp']]);
+                        ->update(['config_values' => $nppp]);
+                    DB::table('configs')
+                        ->where('config_names', 'min_trending_like')
+                        ->update(['config_values' => $nmtl]);
+                    DB::table('configs')
+                        ->where('config_names', 'min_hot_like')
+                        ->update(['config_values' => $nmhl]);
                 }
             }
         }
-        return 0;
     }
 }

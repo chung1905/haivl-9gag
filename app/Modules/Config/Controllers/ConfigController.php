@@ -12,7 +12,7 @@ class ConfigController extends Controller {
         # parent::__construct();
     }
     public function index(Request $request) {
-        Config::modifyConfigData($request);
+        Config::submit($request);
         return view('Config::index', Config::getConfigData());
     }
 }
