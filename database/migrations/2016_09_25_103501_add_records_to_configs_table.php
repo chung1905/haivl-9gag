@@ -1,6 +1,6 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
+//use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
@@ -28,8 +28,6 @@ class AddRecordsToConfigsTable extends Migration
      */
     public function down()
     {
-        Schema::table('configs', function (Blueprint $table) {
-            DB::table('configs')->truncate();
-        });
+        DB::table('configs')->truncate();
     }
 }
