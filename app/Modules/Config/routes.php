@@ -4,7 +4,7 @@ $prefix = "config";  // URL prefix
 
 $module = basename(__DIR__);
 $namespace = "App\Modules\\{$module}\Controllers";
-$middleware = "web";
+$middleware = ["web", "\App\Http\Middleware\IsAdmin"];
 
 Route::group(
     ["prefix" => $prefix, "module" => $module, "namespace" => $namespace, "middleware" => $middleware],

@@ -22,9 +22,10 @@ class Config extends Model
                 case 'posts_per_page':
                     $data['posts_per_page'] = $config['config_values'];
                     break;
-                case 'category';
-                    $data['category'] = explode(',',$config['config_values']);
-                    break;
+                case 'min_trending_like':
+                    $data['min_trending_like'] = $config['config_values'];
+                case 'min_hot_like':
+                    $data['min_hot_like'] = $config['config_values'];
             }
         }
         return $data;

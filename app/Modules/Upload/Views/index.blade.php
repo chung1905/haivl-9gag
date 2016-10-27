@@ -4,12 +4,6 @@
     Upload
 @endsection
 
-@section('category')
-    @foreach ($category as $c)
-        <li><a href="{{ url('/'.$c) }}">{{ ucfirst($c) }}</a></li>
-    @endforeach
-@endsection
-
 @section('content')
 <div class="container">
     <p>Upload your file here:</p>

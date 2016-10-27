@@ -28,7 +28,7 @@ class AddConfigNamesValuesToConfigsTable extends Migration
     {
         Schema::table('configs', function (Blueprint $table) {
             if (Schema::hasColumn('configs', 'config_names')) {
-                $table->dropColumn(['configs_names']);
+                $table->dropColumn(['config_names']);
             }
             if (Schema::hasColumn('configs', 'config_values')) {
                 $table->dropColumn(['config_values']);

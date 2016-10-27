@@ -3,7 +3,6 @@
 namespace App\Modules;
 use File;
 
-
 class ServiceProvider extends \Illuminate\Support\ServiceProvider {
     public function boot() {
         $listModule = array_map('basename', File::directories(__DIR__));
