@@ -7,7 +7,7 @@
 @section('content')
 <div class="container">
     <div class="panel panel-primary">
-        <div class="panel-heading">Cấu hình chung</div>
+        <div class="panel-heading"><h4>Cấu hình chung</h4></div>
         <div class="panel-body">
             <div class="form-group">
                 <form method="POST">
@@ -39,12 +39,34 @@
             </div>
         </div>
     </div>
-    <div class="panel panel-primary">
-        <div class="panel-heading">Category Manager</div>
+    <div class="panel panel-default">
+        <div class="panel-heading"><h4>Category Manager</h4></div>
         <div class="panel-body">
-            <div class="form-group">
-                <form method="POST"></form>
-            </div>
+            <dl>
+                <dt>Các tag hiện có</dt>
+                @foreach ($tags as $t)
+                    <dd>{{ $t }} </dd>
+                @endforeach
+            </dl>
+            <form method="POST">
+                <div class="form-group">
+                    <label>Thêm tag</label>
+                    <input type="text" name="new_tag" class="form-control"> <br>
+                    <button type="submit" name="submit_new_tag" value="Add" class="btn btn-primary">Add</button>
+                </div>
+                <div class="form-group">
+                    <label>Xóa tag</label>
+                    <select class="form-control" name="delete_tag">
+                        <option selected></option>
+                        @foreach ($tags as $t)
+                            <option value="{{$t}}">{{$t}}</option>
+                        @endforeach
+                    </select>
+                    <br>
+                    <button type="submit" name="submit_delete_tag" value="Delete" class="btn btn-danger">Delete</button>
+                </div>
+                {{ csrf_field() }}
+            </form>
         </div>
     </div>
 </div>

@@ -11,7 +11,7 @@ use PDO;
 class Config extends Model
 {
     public static function getConfigData() {
-        $data = [];
+        $data = array();
         DB::setFetchMode(PDO::FETCH_ASSOC);
         $configs = DB::table('configs')->get()->toArray();
         foreach ($configs as $config) {
@@ -28,19 +28,33 @@ class Config extends Model
                     $data['min_hot_like'] = $config['config_values'];
             }
         }
+
+        DB::setFetchMode(PDO::FETCH_NUM);
+        $tags = DB::table('tags')->get()->toArray();
+        $data['tags'] = array();
+        foreach ($tags as $tag) {
+            array_push($data['tags'], $tag[0]);
+        }
+
         return $data;
     }
     public static function submit(Request $data) {
         if (isset($data['config_submit'])) {
             Config::modifyConfigData($data);
         }
+        if (isset($data['submit_new_tag']) && !empty($data['new_tag'])) {
+            Config::addNewTag($data['new_tag']);
+        }
+        if (isset($data['submit_delete_tag']) && !empty($data['delete_tag'])) {
+            Config::deleteTag($data['delete_tag']);
+        }
     }
     public static function modifyConfigData(Request $data) {
-        $nms = $data['new_max_size'];
-        $nppp = $data['new_ppp'];
-        $nmtl = $data['new_min_trending_like'];
-        $nmhl = $data['new_min_hot_like'];
-        if (!empty($nms) && !empty($nppp) && isset($nmtl) && isset($nmhl)) {
+        if (isset($data['new_max_size'], $data['new_ppp'], $data['new_min_trending_like'], $data['new_min_hot_like'])) {
+            $nms = $data['new_max_size'];
+            $nppp = $data['new_ppp'];
+            $nmtl = $data['new_min_trending_like'];
+            $nmhl = $data['new_min_hot_like'];
             if (is_numeric($nms) && is_numeric($nppp) && is_numeric($nmtl) && is_numeric($nmhl)) {
                 if ($nmtl <= $nmhl) {
                     DB::table('configs')
@@ -58,5 +72,14 @@ class Config extends Model
                 }
             }
         }
+    }
+    public static function addNewTag($new_tag) {
+        DB::setFetchMode(PDO::FETCH_NUM);
+        if (empty(DB::table('tags')->where('tag_name', $new_tag)->get()->toArray())) {
+            DB::table('tags')->insert(['tag_name' => $new_tag]);
+        }
+    }
+    public static function deleteTag($del_tag) {
+        DB::table('tags')->where('tag_name', $del_tag)->delete();
     }
 }

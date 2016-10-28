@@ -42,6 +42,9 @@
             <div class="collapse navbar-collapse" id="app-navbar-collapse">
                 <!-- Left Side Of Navbar -->
                 <ul class="nav navbar-nav">
+                    <li><a href="{{ url('/hot') }}">Hot</a></li>
+                    <li><a href="{{ url('/trending') }}">Trending</a></li>
+                    <li><a href="{{ url('/fresh') }}">Fresh</a></li>
                     @yield('category')
                     &nbsp;
                 </ul>
@@ -54,11 +57,13 @@
                         <li><a href="{{ url('/login') }}">Login</a></li>
                         <li><a href="{{ url('/register') }}">Register</a></li>
                     @else
+                        @if (Auth::user()->is_admin)
+                            <li><a href="{{ url('/config') }}">Config</a></li>
+                        @endif
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                                 {{ Auth::user()->name }} <span class="caret"></span>
                             </a>
-
                             <ul class="dropdown-menu" role="menu">
                                 <li>
                                     <a href="{{ url('/logout') }}"
@@ -66,7 +71,6 @@
                                                  document.getElementById('logout-form').submit();">
                                         Logout
                                     </a>
-
                                     <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
                                         {{ csrf_field() }}
                                     </form>

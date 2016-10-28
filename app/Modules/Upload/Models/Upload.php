@@ -22,7 +22,7 @@ class Upload extends Model
             if (
                 Upload::toStorage($request, $destination_dir, $filename)
             &&  Upload::toDB($request, $public_address, $filename)
-            ){
+            ) {
                 echo ('Upload Successfully');
             }
         }
