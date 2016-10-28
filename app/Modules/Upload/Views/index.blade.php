@@ -4,6 +4,12 @@
     Upload
 @endsection
 
+@section('category')
+    @foreach ($tags as $t)
+        <li><a href="{{ url('/'.$t) }}">{{ $t }}</a></li>
+    @endforeach
+@endsection
+
 @section('content')
 <div class="container">
     <div class="panel panel-primary">

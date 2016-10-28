@@ -11,15 +11,14 @@ use PDO;
 class Homepage extends Model
 {
     public static function homepage(Request $request) {
-    	$path = ($request->path() == '/') ? 'hot':$request->path();
-        $return = Config::getConfigData();
-        DB::setFetchMode(PDO::FETCH_ASSOC);
+    	$path = ($request->path() == '/') ? 'hot':$request->path(); # Path in URL = "hot" by default
+        $return = Config::getConfigData(); # Return ConfigData by adding it to $return
     	$primary_category = ['hot', 'trending', 'fresh'];
-    	
-    	if (in_array($path, $primary_category)) {
-    		$return['posts'] = Homepage::loadByLike($return, $path);
+        DB::setFetchMode(PDO::FETCH_ASSOC);
+    	if (in_array($path, $primary_category)) { # We need get posts by like or tag
+    		$return['posts'] = Homepage::loadByLike($return, $path); # Attach posts (by like) to $return
     	} else {
-    		echo ('else');
+    		$return['posts'] = Homepage::loadByTag($return, $path);
     	}
         return $return;
     }
@@ -29,5 +28,14 @@ class Homepage extends Model
     				->where('like', '>=', $min_like)
     				->orderBy('id', 'desc')
     				->paginate($data['posts_per_page']);
+    }
+    public static function loadByTag($data, $path) {
+        return DB::table('posts')
+                    ->where('tag', $path)
+                    ->orderBy('id', 'desc')
+                    ->paginate($data['posts_per_page']);
+    }
+    public static function getConfigData() {
+        return Config::getConfigData();
     }
 }

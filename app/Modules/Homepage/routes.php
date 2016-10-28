@@ -1,6 +1,6 @@
 <?php
 
-use App\Modules\Homepage\Controllers\HomepageController;
+use App\Modules\Homepage\Models\Homepage;
 
 $prefix = "/";  // URL prefix
 
@@ -8,18 +8,18 @@ $module = basename(__DIR__);
 $namespace = "App\Modules\\{$module}\Controllers";
 $middleware = "web";
 
-$category = ['hot', 'trending', 'fresh'];
+$navbar = array_merge(['hot', 'trending', 'fresh'], Homepage::getConfigData()['tags']);
 
 Route::group(
     ["prefix" => $prefix, "module" => $module, "namespace" => $namespace, "middleware" => $middleware],
-    function() use($module, $category) {
+    function() use($module, $navbar) {
         Route::get('/', [
             # middle here
             # "as" => "{$module}.index",
             "uses" => "{$module}Controller@index"
         ]);
-        foreach ($category as $c) {
-            Route::get($c, [
+        foreach ($navbar as $n) {
+            Route::get($n, [
                 "uses" => "{$module}Controller@index"
             ]);
         }
