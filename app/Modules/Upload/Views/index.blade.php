@@ -14,6 +14,14 @@
                     <label>Title: </label>
                     <input type="text" name="title" class="form-control"> <br>
                     <input type="file" name="image_upload" accept="image/*"> <br>
+                    <label>Tag:</label>
+                    <select class="form-control" name="image_tag">
+                        <option selected></option>
+                        @foreach ($tags as $t)
+                            <option value="{{$t}}">{{$t}}</option>
+                        @endforeach
+                    </select>
+                    <br>
                     <button type="submit" name="submit_image" value="OK" class="btn btn-primary">Upload</button>
                     {{ csrf_field() }}
                 </form>
