@@ -11,7 +11,8 @@ use PDO;
 class Homepage extends Model
 {
     public static function homepage(Request $request) {
-    	$path = ($request->path() == '/') ? 'hot':$request->path(); # Path in URL = "hot" by default
+        # $request->path() = tag/{something}
+    	$path = ($request->path() == '/') ? 'hot':substr($request->path(), 4); # Path in URL = "hot" by default
         $return = Config::getConfigData(); # Return ConfigData by adding it to $return
     	$primary_category = ['hot', 'trending', 'fresh'];
         DB::setFetchMode(PDO::FETCH_ASSOC);
@@ -35,6 +36,21 @@ class Homepage extends Model
                     ->orderBy('id', 'desc')
                     ->paginate($data['posts_per_page']);
     }
+    public static function like(int $user, boolean $isLike, int $post) {
+        DB::setFetchMode(PDO::FETCH_NUM);
+        $like = DB::table('posts')
+                    ->select('like')
+                    ->where('id', $post)
+                    ->get()->toArray();
+        if (!empty($like)) {
+            $like = ($isLike) ? ($like[0][0]++):($like[0][0]--);
+            DB::table('posts')
+                    ->where('id', $post)
+                    ->update(['like' => $like]);
+            DB::table('reaction')
+                    ->insert(['post' => $post, 'who' => $user, 'is_like' => $isLike]);
+        }
+    }    
     public static function getConfigData() {
         return Config::getConfigData();
     }

@@ -49,7 +49,8 @@ class BigUpdate extends Migration
         Schema::dropIfExists('tags');
         # Revert config table
         DB::table('configs')->insert(['config_names' => 'category', 'config_values' => 'Hot,Trending,Fresh']);
-        DB::table('configs')->where(['config_names', 'min_trending_like'], ['config_names', 'min_hot_like'])->delete();
+        DB::table('configs')->where('config_names', 'min_trending_like')->delete();
+        DB::table('configs')->where('config_names', 'min_hot_like')->delete();
         # Revert posts table
         Schema::table('posts', function (Blueprint $table) {
             $table->renameColumn('like', 'likes');

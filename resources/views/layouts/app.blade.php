@@ -19,6 +19,7 @@
             'csrfToken' => csrf_token(),
         ]); ?>
     </script>
+    @yield('script')
 </head>
 <body>
     <nav class="navbar navbar-default navbar-static-top">
@@ -42,9 +43,9 @@
             <div class="collapse navbar-collapse" id="app-navbar-collapse">
                 <!-- Left Side Of Navbar -->
                 <ul class="nav navbar-nav">
-                    <li><a href="{{ url('/hot') }}">Hot</a></li>
-                    <li><a href="{{ url('/trending') }}">Trending</a></li>
-                    <li><a href="{{ url('/fresh') }}">Fresh</a></li>
+                    <li><a href="{{ url('/tag/hot') }}">Hot</a></li>
+                    <li><a href="{{ url('/tag/trending') }}">Trending</a></li>
+                    <li><a href="{{ url('/tag/fresh') }}">Fresh</a></li>
                     @yield('category')
                     &nbsp;
                 </ul>

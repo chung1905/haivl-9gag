@@ -6,7 +6,7 @@
 
 @section('category')
     @foreach ($tags as $t)
-        <li><a href="{{ url('/'.$t) }}">{{ $t }}</a></li>
+        <li><a href="{{ url('/tag/'.$t) }}">{{ $t }}</a></li>
     @endforeach
 @endsection
 
