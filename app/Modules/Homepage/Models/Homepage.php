@@ -36,21 +36,27 @@ class Homepage extends Model
                     ->orderBy('id', 'desc')
                     ->paginate($data['posts_per_page']);
     }
-    public static function like(int $user, boolean $isLike, int $post) {
+    public static function like($data = []) {
+        $user = isset($data['user']) ? $data['user']:null;
+        $isLike = isset($data['isLike']) ? $data['isLike']:null;
+        $post = isset($data['post']) ? $data['post']:null;
         DB::setFetchMode(PDO::FETCH_NUM);
         $like = DB::table('posts')
                     ->select('like')
                     ->where('id', $post)
                     ->get()->toArray();
-        if (!empty($like)) {
-            $like = ($isLike) ? ($like[0][0]++):($like[0][0]--);
+        if (!empty($like) && isset($user, $isLike, $post)) {
+            $like = ($isLike) ? ($like[0][0]+1):($like[0][0]-1);
             DB::table('posts')
                     ->where('id', $post)
                     ->update(['like' => $like]);
-            DB::table('reaction')
-                    ->insert(['post' => $post, 'who' => $user, 'is_like' => $isLike]);
+            //DB::table('reaction')
+            //        ->insert(['post' => $post, 'who' => $user, 'is_like' => $isLike]);
+            echo ($like);
+            return "";
         }
-    }    
+        return "False";
+    }
     public static function getConfigData() {
         return Config::getConfigData();
     }

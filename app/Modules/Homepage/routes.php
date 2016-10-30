@@ -17,5 +17,6 @@ Route::group(
         Route::get('/tag/{tag}', [
             "uses" => "{$module}Controller@index"
         ]);
+        Route::get('/like/',"{$module}Controller@like");
     }
 );
