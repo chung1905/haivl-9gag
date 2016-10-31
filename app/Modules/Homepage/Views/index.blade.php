@@ -9,13 +9,13 @@
 $(document).ready(function(){
     $("button").click(function(){
         $(this).toggleClass("active");
-        var value = $(this).hasClass("active") ? 1:0;
+        var value = $(this).hasClass("active") ? 1:-1;
         var post = $(this).attr("id");
         $.ajax({
             type: "GET",
             url: "/like",
             data: { isLike: value, post: post },
-            success: function(result) {$("#"+post).text(result + " like"); console.log(result);}
+            success: function(result) {$("#"+post).text(result + " like");}
         })
     });
 });

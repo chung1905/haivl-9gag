@@ -14,9 +14,9 @@ class HomepageController extends Controller {
         return view('Homepage::index', Homepage::homepage($request));
     }
     public function like(Request $request) {
-    	$data['user'] = (!empty($request->user())) ? $request->user()->id:null;
-    	$data['isLike'] = (!empty($request->isLike)) ? ((bool)$request->isLike):null;
-    	$data['post'] = (!empty($request->post)) ? ((int)substr($request->post, 3)):null;
-    	return Homepage::like($data);
+        $data['user'] = (!empty($request->user())) ? $request->user()->id:null;
+        $data['isLike'] = (!empty($request->isLike)) ? (($request->isLike == "1") ? true:false):null;
+        $data['post'] = (!empty($request->post)) ? ((int)substr($request->post, 3)):null;
+        return Homepage::like($data);
     }
 }
