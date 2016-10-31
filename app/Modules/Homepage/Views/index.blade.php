@@ -31,18 +31,19 @@ $(document).ready(function(){
 @section('content')
 <div class="container">
     <div class="panel panel-default">
-        @if ($posts->total() != 0)
+        @if ( $total != 0 )
             @foreach ($posts as $p)
                 <div class="panel-heading">{{ $p['title'] }}</div>
                 <div class="panel-body"><img src="{{asset($p['link_to_image'])}}" width=50%></div>
                 <div class="panel-footer">
                     <div class="btn-group-sm">
-                        <button id="up-{{ $p['id'] }}" type="button" class="btn btn-default" value="1">{{ $p['like'] }} like</button>
+                        <button id="up-{{ $p['id'] }}" type="button" class="btn btn-default @if($p['is_like']=='1') active @endif" value="1">{{ $p['like'] }} like</button>
                         <button id="down-{{ $p['id'] }}" type="button" class="btn btn-default" value="0" style="display: none">Down</button>
                     </div>
                 </div>
             @endforeach
-            {{ $posts->links() }}
+            <!--  $posts->links()  -->
+            {{ $links }}
         @else
             <div class="panel-body">Sorry, nothing here</div>
         @endif

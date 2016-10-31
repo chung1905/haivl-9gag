@@ -17,9 +17,20 @@ class Homepage extends Model
         $primary_category = ['hot', 'trending', 'fresh'];
         DB::setFetchMode(PDO::FETCH_ASSOC);
         if (in_array($path, $primary_category)) { # Get posts by like or tag
-            $return['posts'] = Homepage::loadByLike($return, $path); # Attach posts (by like) to $return
+            $posts = Homepage::loadByLike($return, $path); # Get posts (by like)
         } else {
-            $return['posts'] = Homepage::loadByTag($return, $path); # Attach posts (by tag) to $return
+            $posts = Homepage::loadByTag($return, $path); # Get posts (by tag)
+        }
+        $return["total"] = $posts->total();
+        $return["links"] = $posts->links();
+        foreach ($posts as $key => $p) {
+            $return["posts"][$key] = $posts[$key];
+            $return["posts"][$key]['is_like'] = "0";
+            if (!empty($request->user())) {
+                if (!empty($reaction = DB::table('reaction')->where([['who', $request->user()->id], ['post', $p['id']]])->get()->toArray())) {
+                    $return['posts'][$key]['is_like'] = "1";
+                }
+            }
         }
         return $return;
     }
@@ -42,9 +53,13 @@ class Homepage extends Model
         $post = isset($data['post']) ? $data['post']:null;
         if (isset($user, $isLike, $post)) {
             $likeColumn = DB::table('posts')->where('id', $post);
-            ($isLike) ? $likeColumn->increment('like'):$likeColumn->decrement('like');
-            //DB::table('reaction')
-            //        ->insert(['post' => $post, 'who' => $user, 'is_like' => $isLike]);            
+            $reaction = DB::table('reaction')->where([['who', $user], ['post', $post]]);
+            ($isLike) ? $likeColumn->increment('like'):$likeColumn->decrement('like'); # +1 or -1 like
+            if (empty($reaction->get()->toArray())) {
+                DB::table('reaction')->insert(['post' => $post, 'who' => $user, 'is_like' => $isLike]);
+            } else {
+                $reaction->delete();
+            }
             DB::setFetchMode(PDO::FETCH_NUM);
             $like = DB::table('posts')
                     ->select('like')
