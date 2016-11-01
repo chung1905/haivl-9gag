@@ -11,6 +11,7 @@ use PDO;
 class Like extends Model
 {
     public static function like($data = []) {
+        # Check if isset($user, $isLike, $post)
         $user = isset($data['user']) ? $data['user']:null;
         $isLike = isset($data['isLike']) ? $data['isLike']:null;
         $post = isset($data['post']) ? $data['post']:null;
@@ -24,11 +25,10 @@ class Like extends Model
                 $reaction->delete();
             }
             DB::setFetchMode(PDO::FETCH_NUM);
-            $like = DB::table('posts')
+            return DB::table('posts') # Return total numbers of like
                     ->select('like')
                     ->where('id', $post)
                     ->get()->toArray()[0][0];
-            return $like;
         }
         return "False";
     }

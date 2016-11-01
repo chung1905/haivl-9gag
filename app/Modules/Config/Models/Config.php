@@ -24,8 +24,10 @@ class Config extends Model
                     break;
                 case 'min_trending_like':
                     $data['min_trending_like'] = $config['config_values'];
+                    break;
                 case 'min_hot_like':
                     $data['min_hot_like'] = $config['config_values'];
+                    break;
             }
         }
         $data['tags'] = Config::getTags();

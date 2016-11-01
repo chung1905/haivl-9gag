@@ -11,10 +11,10 @@ use PDO;
 class Homepage extends Model
 {
     public static function homepage(Request $request) {
-        # $request->path() = tag/{something}
+               # $request->path() = tag/{**this**}
         $path = ($request->path() == '/') ? 'hot':substr($request->path(), 4); # Path in URL = "hot" by default
         $return = Config::getConfigData(); # Return ConfigData by adding it to $return
-        $primary_category = ['hot', 'trending', 'fresh'];
+        $primary_category = ['hot', 'trending', 'fresh']; # 3 categories are sorted by like
         DB::setFetchMode(PDO::FETCH_ASSOC);
         if (in_array($path, $primary_category)) { # Get posts by like or tag
             $posts = Homepage::loadByLike($return, $path); # Get posts (by like)
