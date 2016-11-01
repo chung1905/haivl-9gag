@@ -7,7 +7,7 @@
 @section('script')
 <script type="text/javascript">
 $(document).ready(function(){
-    $("button").click(function(){
+    $("button.like-btn").click(function(){
         $(this).toggleClass("active");
         var value = $(this).hasClass("active") ? 1:-1;
         var post = $(this).attr("id");
@@ -33,11 +33,11 @@ $(document).ready(function(){
     <div class="panel panel-default">
         @if ( $total != 0 )
             @foreach ($posts as $p)
-                <div class="panel-heading">{{ $p['title'] }}</div>
-                <div class="panel-body"><img src="{{asset($p['link_to_image'])}}" width=50%></div>
+                <div class="panel-heading"><a href="{{ url('/post/'.$p['id']) }}">{{ $p['title'] }}</a></div>
+                <div class="panel-body"><a href="{{ url('/post/'.$p['id']) }}"><img src="{{asset($p['link_to_image'])}}" width=50%></a></div>
                 <div class="panel-footer">
                     <div class="btn-group-sm">
-                        <button id="up-{{ $p['id'] }}" type="button" class="btn btn-default @if($p['is_like']=='1') active @endif" value="1">{{ $p['like'] }} like</button>
+                        <button id="up-{{ $p['id'] }}" type="button" class="btn btn-default like-btn @if($p['is_like']=='1') active @endif" value="1">{{ $p['like'] }} like</button>
                         <button id="down-{{ $p['id'] }}" type="button" class="btn btn-default" value="0" style="display: none">Down</button>
                     </div>
                 </div>

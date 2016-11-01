@@ -28,15 +28,17 @@ class Config extends Model
                     $data['min_hot_like'] = $config['config_values'];
             }
         }
-
+        $data['tags'] = Config::getTags();
+        return $data;
+    }
+    public static function getTags() {
         DB::setFetchMode(PDO::FETCH_NUM);
         $tags = DB::table('tags')->get()->toArray();
-        $data['tags'] = array();
+        $return = array();
         foreach ($tags as $tag) {
-            array_push($data['tags'], $tag[0]);
+            array_push($return, $tag[0]);
         }
-
-        return $data;
+        return $return;
     }
     public static function submit(Request $data) {
         if (isset($data['config_submit'])) {

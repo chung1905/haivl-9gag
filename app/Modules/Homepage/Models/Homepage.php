@@ -24,28 +24,28 @@ class Homepage extends Model
         $return["total"] = $posts->total();
         $return["links"] = $posts->links();
         foreach ($posts as $key => $p) {
-            $return["posts"][$key] = $posts[$key];
-            $return["posts"][$key]['is_like'] = "0";
+            $return["posts"][$key] = $posts[$key]; # Attach posts to $return
+            $return["posts"][$key]['is_like'] = "0"; # Default: not like
             if (!empty($request->user())) {
-                if (!empty($reaction = DB::table('reaction')->where([['who', $request->user()->id], ['post', $p['id']]])->get()->toArray())) {
-                    $return['posts'][$key]['is_like'] = "1";
+                if (!empty(DB::table('reaction')->where([['who', $request->user()->id], ['post', $p['id']]])->get()->toArray())) {
+                    $return['posts'][$key]['is_like'] = "1"; # User has liked it, $post['is_like'] = 1 ($post in view)
                 }
             }
         }
         return $return;
     }
-    public static function loadByLike($return, $path) {
-        $min_like = ($path == 'fresh') ? 0:$return['min_'.$path.'_like'];
+    public static function loadByLike($data, $path) {
+        $min_like = ($path == 'fresh') ? 0:$data['min_'.$path.'_like'];
         return DB::table('posts')
                     ->where('like', '>=', $min_like)
                     ->orderBy('id', 'desc')
-                    ->paginate($return['posts_per_page']);
+                    ->paginate($data['posts_per_page']);
     }
-    public static function loadByTag($return, $path) {
+    public static function loadByTag($data, $path) {
         return DB::table('posts')
                     ->where('tag', $path)
                     ->orderBy('id', 'desc')
-                    ->paginate($return['posts_per_page']);
+                    ->paginate($data['posts_per_page']);
     }
     public static function getConfigData() {
         return Config::getConfigData();
