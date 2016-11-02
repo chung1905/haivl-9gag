@@ -20,7 +20,20 @@ $(document).ready(function(){
             url: "/like",
             data: { isLike: value, post: post },
             success: function(result) {$("#"+post).text(result + " like");}
-        })
+        });
+    });
+    $("button#cmt-btn").click(function(){
+        var post = {{ $post['id'] }};
+        var cmt = $("#cmt-content").val();
+        $.ajax({
+            type: "POST",
+            url: "/comment",
+            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+            data: { "cmt": cmt, "post": post},
+            success: function(result) {
+
+            }
+        });
     });
 });
 </script>
@@ -39,6 +52,28 @@ $(document).ready(function(){
         <div class="panel-body"><img src="{{asset($post['link_to_image'])}}" width=50%></div>
         <div class="panel-footer">
             <button id="up-{{ $post['id'] }}" type="button" class="btn btn-default btn-sm like-btn @if($post['is_like']=='1') active @endif" value="1">{{ $post['like'] }} like</button>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">Comments</div>
+        <div class="panel-body">
+            @if (empty($comments))
+                <p>Be the first to leave a comment here</p>
+            @else
+                @foreach($comments as $c)
+                <blockquote>
+                    <p>{{ $c["content"] }}</p>
+                    <footer>{{ $c["author"] }}</footer>
+                </blockquote>
+                @endforeach
+            @endif
+        </div>
+        <div class="panel-footer">
+            <div class="form-group">
+                <label>Leave your comment:</label>
+                <textarea id="cmt-content" class="form-control" placeholder="Enter your comment here..."></textarea> <br>
+                <button id="cmt-btn" class="btn btn-primary cmt-btn">Submit</button>
+            </div>
         </div>
     </div>
 </div>

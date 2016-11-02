@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use PDO;
 use App\Modules\Config\Models\Config;
+use App\Modules\Comment\Models\Comment;
 
 class Post extends Model
 {
@@ -23,6 +24,7 @@ class Post extends Model
                 }
             }
         }
+        $return['comments'] = Comment::loadComment($id);
         return $return;
     }
 }
