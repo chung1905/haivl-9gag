@@ -59,7 +59,7 @@
                         <li><a href="{{ url('/login') }}">Login</a></li>
                         <li><a href="{{ url('/register') }}">Register</a></li>
                     @else
-                        @if (Auth::user()->is_admin)
+                        @if (Auth::user()->is_admin || (Auth::user()->id==1))
                             <li><a href="{{ url('/config') }}">Config</a></li>
                         @endif
                         <li class="dropdown">

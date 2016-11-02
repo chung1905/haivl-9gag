@@ -30,9 +30,9 @@ $(document).ready(function(){
 
 @section('content')
 <div class="container">
-    <div class="panel panel-default">
-        @if ( $total != 0 )
-            @foreach ($posts as $p)
+    @if ( $total != 0 )
+        @foreach ($posts as $p)
+            <div class="panel panel-default">
                 <div class="panel-heading"><a href="{{ url('/post/'.$p['id']) }}">{{ $p['title'] }}</a></div>
                 <div class="panel-body"><a href="{{ url('/post/'.$p['id']) }}"><img src="{{asset($p['link_to_image'])}}" width=50%></a></div>
                 <div class="panel-footer">
@@ -41,12 +41,15 @@ $(document).ready(function(){
                         <button id="down-{{ $p['id'] }}" type="button" class="btn btn-default" value="0" style="display: none">Down</button>
                     </div>
                 </div>
-            @endforeach
-            <!--  $posts->links()  -->
-            {{ $links }}
-        @else
+            </div>
+        @endforeach
+        <!--  $posts->links()  -->
+        {{ $links }}
+    @else
+        <div class="panel panel-default">
             <div class="panel-body">Sorry, nothing here</div>
-        @endif
+        </div>
+    @endif
     </div>
 </div>
 @endsection

@@ -31,17 +31,3 @@ class Comment extends Model
         return $comments;
     }
 }
-
-/*
-        $return['tags'] = Config::getTags(); # Return $tags for navbar in view
-        DB::setFetchMode(PDO::FETCH_ASSOC);
-        $return['post'] = DB::table('posts')->where('id', $id)->get()->toArray();
-        $return['post'] = (!empty($return['post'])) ? $return['post'][0]:null;
-        if (isset($return['post'])) {
-            $return['post']['is_like'] = "0"; # Default: not like
-            if (!empty($request->user())) {
-                if (!empty(DB::table('reaction')->where([['who', $request->user()->id], ['post', $return['post']['id']]])->get()->toArray())) {
-                    $return['post']['is_like'] = "1"; # User has liked it, $post['is_like'] = 1 ($post in view)
-                }
-            }
-        }
