@@ -43,7 +43,6 @@ $(document).ready(function(){
                 </div>
             </div>
         @endforeach
-        <!--  $posts->links()  -->
         {{ $links }}
     @else
         <div class="panel panel-default">

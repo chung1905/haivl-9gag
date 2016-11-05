@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Model;
 use App\Modules\Config\Models\Config;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use PDO;
 
 class Homepage extends Model
@@ -13,7 +14,7 @@ class Homepage extends Model
     public static function homepage(Request $request) {
                # $request->path() = tag/{**this**}
         $path = ($request->path() == '/') ? 'hot':substr($request->path(), 4); # Path in URL = "hot" by default
-        $return = Config::getConfigData(); # Return ConfigData by adding it to $return
+        $return = Homepage::getConfigData(); # Return ConfigData by adding it to $return
         $primary_category = ['hot', 'trending', 'fresh']; # 3 categories are sorted by like
         DB::setFetchMode(PDO::FETCH_ASSOC);
         if (in_array($path, $primary_category)) { # Get posts by like or tag
@@ -25,11 +26,12 @@ class Homepage extends Model
         $return["links"] = $posts->links();
         foreach ($posts as $key => $p) {
             $return["posts"][$key] = $posts[$key]; # Attach posts to $return
-            DB::setFetchMode(PDO::FETCH_NUM);
+            DB::setFetchMode(PDO::FETCH_NUM); # Set fetch mode to FETCH_NUM to get author easily
             $return["posts"][$key]["author"] = DB::table('users')->where('id', $p['author'])->select('name')->get()->toArray()[0][0];
+            DB::setFetchMode(PDO::FETCH_BOTH); # Set fetch mode to FETCH_BOTH (default) * if not, app can't load user()->name *
             $return["posts"][$key]['is_like'] = "0"; # Default: not like
-            if (!empty($request->user())) {
-                if (!empty(DB::table('reaction')->where([['who', $request->user()->id], ['post', $p['id']]])->get()->toArray())) {
+            if (Auth::check()) {
+                if (!empty(DB::table('reaction')->where([['who', Auth::id()], ['post', $p['id']]])->get()->toArray())) {
                     $return['posts'][$key]['is_like'] = "1"; # User has liked it, $post['is_like'] = 1 ($post in view)
                 }
             }
