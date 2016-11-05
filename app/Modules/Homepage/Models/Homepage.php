@@ -25,6 +25,8 @@ class Homepage extends Model
         $return["links"] = $posts->links();
         foreach ($posts as $key => $p) {
             $return["posts"][$key] = $posts[$key]; # Attach posts to $return
+            DB::setFetchMode(PDO::FETCH_NUM);
+            $return["posts"][$key]["author"] = DB::table('users')->where('id', $p['author'])->select('name')->get()->toArray()[0][0];
             $return["posts"][$key]['is_like'] = "0"; # Default: not like
             if (!empty($request->user())) {
                 if (!empty(DB::table('reaction')->where([['who', $request->user()->id], ['post', $p['id']]])->get()->toArray())) {

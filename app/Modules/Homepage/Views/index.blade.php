@@ -33,7 +33,7 @@ $(document).ready(function(){
     @if ( $total != 0 )
         @foreach ($posts as $p)
             <div class="panel panel-default">
-                <div class="panel-heading"><a href="{{ url('/post/'.$p['id']) }}">{{ $p['title'] }}</a></div>
+                <div class="panel-heading"><a href="{{ url('/post/'.$p['id']) }}"><strong>{{ $p['title'] }}</strong></a> by {{ $p['author'] }}</div>
                 <div class="panel-body"><a href="{{ url('/post/'.$p['id']) }}"><img src="{{asset($p['link_to_image'])}}" width=50%></a></div>
                 <div class="panel-footer">
                     <div class="btn-group-sm">

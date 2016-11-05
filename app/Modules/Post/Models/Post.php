@@ -24,6 +24,8 @@ class Post extends Model
                 }
             }
         }
+        DB::setFetchMode(PDO::FETCH_NUM);
+        $return['author'] = DB::table('users')->where('id', $id)->select('name')->get()->toArray()[0][0];
         $return['comments'] = Comment::loadComment($id);
         return $return;
     }

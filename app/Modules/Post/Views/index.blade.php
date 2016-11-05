@@ -54,7 +54,7 @@ $(document).ready(function(){
 @section('content')
 <div class="container">
     <div class="panel panel-primary">
-        <div class="panel-heading">{{ $post['title'] }}</div>
+        <div class="panel-heading">{{ $post['title'] }} by {{ $author }}</div>
         <div class="panel-body"><img src="{{asset($post['link_to_image'])}}" width=50%></div>
         <div class="panel-footer">
             <button id="up-{{ $post['id'] }}" type="button" class="btn btn-default btn-sm like-btn @if($post['is_like']=='1') active @endif" value="1">{{ $post['like'] }} like</button>
@@ -69,7 +69,7 @@ $(document).ready(function(){
                 @foreach($comments as $c)
                 <blockquote>
                     <p>{{ $c["content"] }}</p>
-                    <!-- <footer>{{ $c["author"] }}</footer> -->
+                    <footer>{{ $c["author"] }}</footer>
                 </blockquote>
                 @endforeach
             @endif

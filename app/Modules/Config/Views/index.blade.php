@@ -34,10 +34,10 @@
                     </select>
                     <br>
                     <label>Số like để vào trending tag: </label>
-                    <input type="number" name="new_min_trending_like" class="form-control" min="0" max="{{$min_hot_like}}" value="{{$min_trending_like}}"></input>
+                    <input type="number" name="new_min_trending_like" class="form-control" min="0" value="{{$min_trending_like}}"></input>
                     <br>
                     <label>Số like để vào hot tag (lớn hơn số like của trending): </label>
-                    <input type="number" name="new_min_hot_like" class="form-control" min="{{$min_trending_like}}" value="{{$min_hot_like}}">
+                    <input type="number" name="new_min_hot_like" class="form-control" min="0" value="{{$min_hot_like}}">
                     <br>
                     <button type="submit" name="config_submit" value="OK" class="btn btn-primary">Save</button>
                     {{ csrf_field() }}

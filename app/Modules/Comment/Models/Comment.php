@@ -27,7 +27,17 @@ class Comment extends Model
     }
     public static function loadComment($post_id) {
         DB::setFetchMode(PDO::FETCH_ASSOC);
-        $comments = DB::table("comments")->where('post_id', $post_id)->orderBy('id','desc')->get()->toArray();
+        $rawComments = DB::table("comments")->where('post_id', $post_id)->orderBy('id','desc')->get()->toArray();
+        if (empty($rawComments)) {
+            return $rawComments;
+        } else {
+            $comments = [];
+            foreach ($rawComments as $key => $r) {
+                DB::setFetchMode(PDO::FETCH_NUM);
+                $comments[$key]['content'] = $r['content'];
+                $comments[$key]['author'] = DB::table('users')->where('id', $r['author'])->select('name')->get()->toArray()[0][0];
+            }
+        }
         return $comments;
     }
 }
