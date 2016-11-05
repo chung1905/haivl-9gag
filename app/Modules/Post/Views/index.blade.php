@@ -34,6 +34,7 @@ $(document).ready(function(){
                 success: function(result) {
                     var html = "<blockquote><p>"+cmt+"</p></blockquote>";
                     $('#comments').prepend(html);
+                    $('#be-the-first').remove();
                 }
             });
         } else {
@@ -64,7 +65,7 @@ $(document).ready(function(){
         <div class="panel-heading">Comments</div>
         <div id="comments" class="panel-body">
             @if (empty($comments))
-                <p>Be the first to leave a comment here</p>
+                <p id="be-the-first">Be the first to leave a comment here</p>
             @else
                 @foreach($comments as $c)
                 <blockquote>
