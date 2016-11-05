@@ -16,7 +16,7 @@ $(document).ready(function(){
             url: "/like",
             data: { isLike: value, post: post },
             success: function(result) {$("#"+post).text(result + " like");}
-        })
+        });
     });
 });
 </script>

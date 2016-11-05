@@ -25,15 +25,21 @@ $(document).ready(function(){
     $("button#cmt-btn").click(function(){
         var post = {{ $post['id'] }};
         var cmt = $("#cmt-content").val();
-        $.ajax({
-            type: "POST",
-            url: "/comment",
-            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-            data: { "cmt": cmt, "post": post},
-            success: function(result) {
-
-            }
-        });
+        if (cmt != "") {
+            $.ajax({
+                type: "POST",
+                url: "/comment",
+                headers: { "X-CSRF-TOKEN": $("meta[name='csrf-token']").attr("content") },
+                data: { "cmt": cmt, "post": post},
+                success: function(result) {
+                    var html = "<blockquote><p>"+cmt+"</p></blockquote>";
+                    $('#comments').prepend(html);
+                }
+            });
+        } else {
+            var html = "<br><div class='alert alert-danger'><strong>It can not be empty</strong></div>";
+            $(html).insertAfter("textarea#cmt-content");
+        }
     });
 });
 </script>
@@ -56,14 +62,14 @@ $(document).ready(function(){
     </div>
     <div class="panel panel-default">
         <div class="panel-heading">Comments</div>
-        <div class="panel-body">
+        <div id="comments" class="panel-body">
             @if (empty($comments))
                 <p>Be the first to leave a comment here</p>
             @else
                 @foreach($comments as $c)
                 <blockquote>
                     <p>{{ $c["content"] }}</p>
-                    <footer>{{ $c["author"] }}</footer>
+                    <!-- <footer>{{ $c["author"] }}</footer> -->
                 </blockquote>
                 @endforeach
             @endif
