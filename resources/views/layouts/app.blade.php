@@ -15,6 +15,7 @@
 
     <!-- Scripts -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="/js/custom.js"></script>
     <script>
         window.Laravel = <?php echo json_encode([
             'csrfToken' => csrf_token(),
@@ -44,9 +45,9 @@
             <div class="collapse navbar-collapse" id="app-navbar-collapse">
                 <!-- Left Side Of Navbar -->
                 <ul class="nav navbar-nav">
-                    <li><a href="{{ url('/tag/hot') }}">Hot</a></li>
-                    <li><a href="{{ url('/tag/trending') }}">Trending</a></li>
-                    <li><a href="{{ url('/tag/fresh') }}">Fresh</a></li>
+                    <li id="navbar-Hot"><a href="{{ url('/tag/hot') }}">Hot</a></li>
+                    <li id="navbar-Trending"><a href="{{ url('/tag/trending') }}">Trending</a></li>
+                    <li id="navbar-Fresh"><a href="{{ url('/tag/fresh') }}">Fresh</a></li>
                     @yield('category')
                     &nbsp;
                 </ul>

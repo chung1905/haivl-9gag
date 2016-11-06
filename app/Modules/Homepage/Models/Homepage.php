@@ -22,13 +22,14 @@ class Homepage extends Model
         } else {
             $posts = Homepage::loadByTag($return, $path); # Get posts (by tag)
         }
+        $return["path"] = ($path=="hot") ? "Hot":(($path=="trending") ? "Trending":(($path=="fresh") ? "Fresh":$path));
         $return["total"] = $posts->total();
         $return["links"] = $posts->links();
         foreach ($posts as $key => $p) {
             $return["posts"][$key] = $posts[$key]; # Attach posts to $return
             DB::setFetchMode(PDO::FETCH_NUM); # Set fetch mode to FETCH_NUM to get author easily
             $return["posts"][$key]["author"] = DB::table('users')->where('id', $p['author'])->select('name')->get()->toArray()[0][0];
-            DB::setFetchMode(PDO::FETCH_BOTH); # Set fetch mode to FETCH_BOTH (default) * if not, app can't load user()->name *
+            DB::setFetchMode(PDO::FETCH_BOTH); # Reset fetch mode to FETCH_BOTH (default) * if not, app can't load user()->name *
             $return["posts"][$key]['is_like'] = "0"; # Default: not like
             if (Auth::check()) {
                 if (!empty(DB::table('reaction')->where([['who', Auth::id()], ['post', $p['id']]])->get()->toArray())) {

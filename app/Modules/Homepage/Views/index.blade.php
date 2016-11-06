@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-    Hello
+    {{ $path }}
 @endsection
 
 @section('script')
@@ -18,13 +18,14 @@ $(document).ready(function(){
             success: function(result) {$("#"+post).text(result + " like");}
         });
     });
+    activeNavbar("{{ $path }}");
 });
 </script>
 @endsection
 
 @section('category')
     @foreach ($tags as $t)
-        <li><a href="{{ url('/tag/'.$t) }}">{{ $t }}</a></li>
+        <li id="navbar-{{ $t }}"><a href="{{ url('/tag/'.$t) }}">{{ $t }}</a></li>
     @endforeach
 @endsection
 
