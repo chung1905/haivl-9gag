@@ -14,7 +14,7 @@ class Post extends Model
 {
     public static function Post(Request $request,int $id) {
         $return['tags'] = Config::getTags(); # Return $tags for navbar in view
-        DB::setFetchMode(PDO::FETCH_BOTH);
+        DB::setFetchMode(PDO::FETCH_ASSOC);
         $return['post'] = DB::table('posts')->where('id', $id)->get()->toArray();
         $return['post'] = (!empty($return['post'])) ? $return['post'][0]:null; # If post exists
         if (isset($return['post'])) { # Check if the user has liked post
@@ -26,7 +26,7 @@ class Post extends Model
             }
         }
         DB::setFetchMode(PDO::FETCH_NUM);
-        $return['author'] = DB::table('users')->where('id', Auth::id())->select('name')->get()->toArray()[0][0];
+        $return['author'] = DB::table('users')->where('id', $return['post']['author'])->select('name')->get()->toArray()[0][0];
         $return['comments'] = Comment::loadComment($id);
         return $return;
     }

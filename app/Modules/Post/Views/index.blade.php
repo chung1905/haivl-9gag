@@ -22,26 +22,29 @@ $(document).ready(function(){
             success: function(result) {$("#"+post).text(result + " like");}
         });
     });
-    $("button#cmt-btn").click(function(){
-        var post = {{ $post['id'] }};
-        var cmt = $("#cmt-content").val();
-        if (cmt != "") {
-            $.ajax({
-                type: "POST",
-                url: "/comment",
-                headers: { "X-CSRF-TOKEN": $("meta[name='csrf-token']").attr("content") },
-                data: { "cmt": cmt, "post": post},
-                success: function(result) {
-                    var html = "<blockquote><p>"+cmt+"</p></blockquote>";
-                    $('#comments').prepend(html);
-                    $('#be-the-first').remove();
-                }
-            });
-        } else {
-            var html = "<br><div class='alert alert-danger'><strong>It can not be empty</strong></div>";
-            $(html).insertAfter("textarea#cmt-content");
-        }
-    });
+    @if (Auth::check())
+        $("button#cmt-btn").click(function(){
+            var post = {{ $post['id'] }};
+            var cmt = $("#cmt-content").val();
+            if (cmt != "") {
+                $.ajax({
+                    type: "POST",
+                    url: "/comment",
+                    headers: { "X-CSRF-TOKEN": $("meta[name='csrf-token']").attr("content") },
+                    data: { "cmt": cmt, "post": post},
+                    success: function(result) {
+                        var html = "<blockquote><p>"+cmt+"</p><footer>{{ Auth::user()->name }}</footer></blockquote>";
+                        $('#comments').prepend(html);
+                        $('#be-the-first').remove();
+                        $('textarea#cmt-content').val("");
+                    }
+                });
+            } else {
+                var html = "<br><div class='alert alert-danger'><strong>It can not be empty</strong></div>";
+                $(html).insertAfter("textarea#cmt-content");
+            }
+        });
+    @endif
 });
 </script>
 @endsection
@@ -79,7 +82,11 @@ $(document).ready(function(){
             <div class="form-group">
                 <label>Leave your comment:</label>
                 <textarea id="cmt-content" class="form-control" placeholder="Enter your comment here..."></textarea> <br>
-                <button id="cmt-btn" class="btn btn-primary cmt-btn">Submit</button>
+                @if (Auth::check())
+                    <button id="cmt-btn" class="btn btn-primary cmt-btn">Submit</button>
+                @else
+                    <a href="{{ url('/login') }}" class="btn btn-info">Please sign in</a>
+                @endif
             </div>
         </div>
     </div>

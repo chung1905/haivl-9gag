@@ -4,6 +4,15 @@
     Config
 @endsection
 
+
+@section('script')
+<script type="text/javascript">
+    $(document).ready(function(){
+        activeNavbar("config");
+    });
+</script>
+@endsection
+
 @section('category')
     @foreach ($tags as $t)
         <li><a href="{{ url('/tag/'.$t) }}">{{ $t }}</a></li>

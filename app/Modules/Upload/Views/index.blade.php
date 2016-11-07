@@ -4,6 +4,13 @@
     Upload
 @endsection
 
+@section('script')
+<script type="text/javascript">
+    $(document).ready(function(){
+        activeNavbar("upload");
+    });
+</script>
+@endsection
 @section('category')
     @foreach ($tags as $t)
         <li><a href="{{ url('/tag/'.$t) }}">{{ $t }}</a></li>
