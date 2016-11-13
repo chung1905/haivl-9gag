@@ -13,4 +13,7 @@ class HomepageController extends Controller {
     public function index(Request $request) {
         return view('Homepage::index', Homepage::homepage($request));
     }
+    public function loadPage(Request $request) {
+        return Homepage::loadPage($request);
+    }
 }

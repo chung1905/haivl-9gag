@@ -10,10 +10,9 @@ Route::group(
     ["prefix" => $prefix, "module" => $module, "namespace" => $namespace, "middleware" => $middleware],
     function() use($module) {
         Route::get('/', [
-            # middle here
-            # "as" => "{$module}.index",
             "uses" => "{$module}Controller@index"
         ]);
-        Route::get('/tag/{tag}',"{$module}Controller@index");
+        Route::get("/tag/{tag}","{$module}Controller@index");
+        Route::get("/loadpage","{$module}Controller@loadPage");
     }
 );

@@ -30,6 +30,6 @@ class Like extends Model
                     ->where('id', $post)
                     ->get()->toArray()[0][0];
         }
-        return "False";
+        return "You need sign in to";
     }
 }
