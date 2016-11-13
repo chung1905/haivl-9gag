@@ -32,14 +32,13 @@ $(document).ready(function(){
                     loading = true;
                     $.ajax({
                         type: "GET",
-                        async: false,
                         url: "/loadpage",
                         data: { tag: "{{ $path }}", page: nextPage },
                         success: function (result) {
                             currentPage = currentPage + 1;
                             if (result.length>0) {
                                 for (var i=0; i<result.length; i++) {
-                                    $("div#main").append('<div class="panel panel-default" id="'+result[i].id+'"><div class="panel-heading"><a href="{{ url('/post/') }}'+result[i].id+'"><strong>'+result[i].title+'</strong></a> by '+result[i].author+'</div><div class="panel-body"><a href="{{ url('/post/') }}'+result[i].id+'"><img src="{{asset("/")}}'+result[i].link_to_image+'" width=50%></a></div><div class="panel-footer"><div class="btn-group-sm"><button id="up-'+result[i].id+'" type="button" class="btn btn-default like-btn" value="1">'+result[i].like+' like</button></div></div></div>');
+                                    $("div#main").append('<div class="panel panel-default" id="'+result[i].id+'"><div class="panel-heading"><a href="{{ url('/post/') }}/'+result[i].id+'"><strong>'+result[i].title+'</strong></a> by '+result[i].author+'</div><div class="panel-body"><a href="{{ url('/post/') }}/'+result[i].id+'"><img src="{{asset("/")}}'+result[i].link_to_image+'" width=50%></a></div><div class="panel-footer"><div class="btn-group-sm"><button id="up-'+result[i].id+'" type="button" class="btn btn-default like-btn" value="1">'+result[i].like+' like</button></div></div></div>');
                                     if (result[i].is_like=='1') {$("button#up-"+result[i].id).addClass("active");}
                                 }
                             } else {
