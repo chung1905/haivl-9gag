@@ -24,9 +24,11 @@ $(document).ready(function(){
     });
     @if (Auth::check())
         $("button#cmt-btn").click(function(){
-            var post = {{ $post['id'] }};
+            var post = "{{ $post['id'] }}";
             var cmt = $("#cmt-content").val();
             if (cmt != "") {
+                $("textarea#cmt-content").val("");
+                $("div#alert-empty-comment").remove();
                 $.ajax({
                     type: "POST",
                     url: "/comment",
@@ -36,11 +38,10 @@ $(document).ready(function(){
                         var html = "<blockquote><p>"+cmt+"</p><footer>{{ Auth::user()->name }}</footer></blockquote>";
                         $('#comments').prepend(html);
                         $('#be-the-first').remove();
-                        $('textarea#cmt-content').val("");
                     }
                 });
             } else {
-                var html = "<br><div class='alert alert-danger'><strong>It can not be empty</strong></div>";
+                var html = "<br><div id='alert-empty-comment' class='alert alert-danger'><strong>It can not be empty</strong></div>";
                 $(html).insertAfter("textarea#cmt-content");
             }
         });
