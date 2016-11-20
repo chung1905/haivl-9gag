@@ -14,4 +14,4 @@ The Laravel framework is open-sourced software licensed under the [MIT license](
 
 ## Guide
 
-### Active Social-login by defining xx_APPID variable in .env
+Active Social-login by defining xx_APPID variable in .env.
