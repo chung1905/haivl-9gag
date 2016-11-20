@@ -8,7 +8,7 @@
     @endif
 @endsection
 
-@section('script')
+@section('head')
 <script type="text/javascript">
 $(document).ready(function(){
     $("button.like-btn").click(function(){

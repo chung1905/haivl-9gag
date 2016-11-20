@@ -4,7 +4,7 @@
     Config
 @endsection
 
-@section('script')
+@section('head')
 <script type="text/javascript">
     $(document).ready(function(){
         activeNavbar("config");

@@ -4,7 +4,7 @@
     {{ $path }}
 @endsection
 
-@section('script')
+@section('head')
 <script type="text/javascript">
 "use strict";
 var currentPage = 1;
