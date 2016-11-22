@@ -9,6 +9,11 @@
 @endsection
 
 @section('head')
+<meta property="og:url" content="{{ url('/post/'.$post['id']) }}" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="{{$post['title']}} -  9gag clone" />
+<meta property="og:description" content="By {{ $author }}" />
+<meta property="og:image" content="{{asset($post['link_to_image'])}}">
 <script type="text/javascript">
 $(document).ready(function(){
     $("button.like-btn").click(function(){
@@ -57,12 +62,25 @@ $(document).ready(function(){
 @endsection
 
 @section('content')
+@if(!empty(env('FB_APPID')))
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.8&appId=1199451960147427";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+@endif
 <div class="container">
     <div class="panel panel-primary">
         <div class="panel-heading">{{ $post['title'] }} by {{ $author }}</div>
         <div class="panel-body"><img src="{{asset($post['link_to_image'])}}" width=50%></div>
         <div class="panel-footer">
             <button id="up-{{ $post['id'] }}" type="button" class="btn btn-default btn-sm like-btn @if($post['is_like']=='1') active @endif" value="1">{{ $post['like'] }} like</button>
+            @if(!empty(env('FB_APPID')))
+                <div class="fb-share-button btn" data-href="{{ url('/post/'.$post['id']) }}" data-layout="button" data-size="large" data-mobile-iframe="true"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={{ url('/post/'.$post['id']) }}%2F&amp;src=sdkpreparse">Share</a></div>
+            @endif
         </div>
     </div>
     <div class="panel panel-default">
