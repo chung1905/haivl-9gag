@@ -16,6 +16,7 @@
 <meta property="og:image" content="{{asset($post['link_to_image'])}}">
 <script type="text/javascript">
 $(document).ready(function(){
+    connectingDialog();
     $("button.like-btn").click(function(){
         $(this).toggleClass("active");
         var value = $(this).hasClass("active") ? 1:-1;
@@ -40,14 +41,22 @@ $(document).ready(function(){
                     headers: { "X-CSRF-TOKEN": $("meta[name='csrf-token']").attr("content") },
                     data: { "cmt": cmt, "post": post},
                     success: function(result) {
-                        var html = "<blockquote><p>"+cmt+"</p><footer>{{ Auth::user()->name }}</footer></blockquote>";
+                        var html =
+                            "<blockquote>"+
+                                "<p>"+cmt+"</p>"+
+                                "<footer>{{ Auth::user()->name }}</footer>"+
+                            "</blockquote>";
+                        console.log(html);
                         $('#comments').prepend(html);
                         $('#be-the-first').remove();
                     }
                 });
             } else {
-                var html = "<br><div id='alert-empty-comment' class='alert alert-danger'><strong>It can not be empty</strong></div>";
-                $(html).insertAfter("textarea#cmt-content");
+                var html =
+                    "<br><div id='alert-empty-comment' class='alert alert-danger'>"+
+                        "<strong>It can not be empty</strong>"+
+                    "</div>";
+                $(html).insertAfter("textarea#cmt-content").delay(3000).fadeOut();
             }
         });
     @endif
@@ -64,13 +73,9 @@ $(document).ready(function(){
 @section('content')
 @if(!empty(env('FB_APPID')))
 <div id="fb-root"></div>
-<script>(function(d, s, id) {
-  var js, fjs = d.getElementsByTagName(s)[0];
-  if (d.getElementById(id)) return;
-  js = d.createElement(s); js.id = id;
-  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.8&appId=1199451960147427";
-  fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));</script>
+<script>
+    fbInit(document, 'script', 'facebook-jssdk','{{env("FB_APPID")}}');
+</script>
 @endif
 <div class="container">
     <div class="panel panel-primary">
