@@ -34,6 +34,7 @@ class User extends Model
                 # It's not the first time, then signin
                 User::socialSignIn($x[0]->id);
         }
+        return 0;
     }
 
     protected static function facebook($data) {
@@ -52,11 +53,11 @@ class User extends Model
     }
 
     protected static function socialSignUp($data) {
-        return DefaultUser::create([
+        return Auth::login(DefaultUser::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt(User::generateRandomPassword()),
-        ]);
+        ]), true);
     }
 
     protected static function socialSignIn($id) {
