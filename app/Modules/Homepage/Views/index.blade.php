@@ -44,7 +44,7 @@ $(document).ready(function(){
                                             '<a href="{{ url('/post/') }}/'+result[i].id+'">'+
                                                 '<strong>'+result[i].title+'</strong>'+
                                             '</a>'+
-                                            'by '+result[i].author+
+                                            ' by '+result[i].author+
                                         '</div>'+
                                         '<div class="panel-body">'+
                                             '<a href="{{ url('/post/') }}/'+result[i].id+'">'+

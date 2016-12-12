@@ -16,7 +16,6 @@
 <meta property="og:image" content="{{asset($post['link_to_image'])}}">
 <script type="text/javascript">
 $(document).ready(function(){
-    connectingDialog();
     $("button.like-btn").click(function(){
         $(this).toggleClass("active");
         var value = $(this).hasClass("active") ? 1:-1;
